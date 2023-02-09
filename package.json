@@ -1,0 +1,21 @@
+{
+  "name": "node-red-contrib-presidio",
+  "version": "0.0.1",
+  "description": "Node-RED node for ",
+  "keywords": [
+    "node-red-nodegen", 
+    "privacy", 
+    " analysis", 
+    " anonymization"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "node-red": {
+    "version": ">=1.3.7",
+    "nodes": {
+      "": "subflow.js"
+    }
+  },
+  "license": "Apache-2.0"
+}

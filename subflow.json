@@ -1,0 +1,500 @@
+[
+    {
+        "id": "ff3d7b7d34a79a9f",
+        "type": "subflow",
+        "name": "Presidio Service",
+        "info": "",
+        "category": "Presidio",
+        "in": [],
+        "out": [],
+        "env": [
+            {
+                "name": "analyzer",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "icon": "font-awesome/fa-align-justify",
+                    "label": {
+                        "en-US": "Analyzer"
+                    }
+                }
+            },
+            {
+                "name": "anonymizer",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "icon": "font-awesome/fa-align-justify",
+                    "label": {
+                        "en-US": "Anonymizer"
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "module": "node-red-contrib-presidio",
+            "version": "0.0.1",
+            "author": "Thodoris Ioannidis <thodoris.ioannidis@inqbit.io>",
+            "desc": "This is a service subflow that allows for interactions with the Microsoft Presidio Analyzer and Anonymizer services.",
+            "keywords": "privacy, analysis, anonymization",
+            "license": "Apache-2.0"
+        },
+        "color": "#E9967A",
+        "icon": "font-awesome/fa-user-circle-o"
+    },
+    {
+        "id": "3995dd87858eb6db",
+        "type": "http in",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "url": "/init",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "1f919f4ee604b0d8"
+            ]
+        ]
+    },
+    {
+        "id": "1f919f4ee604b0d8",
+        "type": "http response",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 350,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "70e89475283bd3b1",
+        "type": "http in",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "url": "/HealthCheck",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "9ed6c030f5211130",
+                "2ee9fdb930277f6b"
+            ]
+        ]
+    },
+    {
+        "id": "f9ff29f24176b5dd",
+        "type": "http in",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "url": "/Presidio",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "94a2a056b0656334"
+            ]
+        ]
+    },
+    {
+        "id": "372c406bc8578e0f",
+        "type": "http response",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1390,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "286797bd2d5c03b1",
+        "type": "switch",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "property": "payload.function",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "analyze",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "anonymize",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "deanonymize",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 770,
+        "y": 340,
+        "wires": [
+            [
+                "edb597e3a61299b0"
+            ],
+            [
+                "386186fe0d67a3cb"
+            ],
+            [
+                "e1f9ffcabd6fd91b"
+            ]
+        ]
+    },
+    {
+        "id": "7a537092ef2d5463",
+        "type": "http response",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1190,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "3c244c15d58e697f",
+        "type": "http request",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 710,
+        "y": 180,
+        "wires": [
+            [
+                "6892ac532b8e4429"
+            ]
+        ]
+    },
+    {
+        "id": "9ed6c030f5211130",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Check Analyzer Service Health",
+        "func": "msg.url = env.get('analyzer')+\"/health\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "3c244c15d58e697f"
+            ]
+        ]
+    },
+    {
+        "id": "2ee9fdb930277f6b",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Check Anonymizer Service Health",
+        "func": "msg.url = env.get('anonymizer') +\"/health\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "c08cefca1683a350"
+            ]
+        ]
+    },
+    {
+        "id": "c08cefca1683a350",
+        "type": "http request",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 710,
+        "y": 220,
+        "wires": [
+            [
+                "7c0e5a6eda0bccfa"
+            ]
+        ]
+    },
+    {
+        "id": "94a2a056b0656334",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Set Presidio Parameters and Analysis Entities",
+        "func": "const key = msg.payload.key || \"WmZq4t7w!z%C&F)J\"\nconst actions = {\n    \"redact\":{\n        \"type\":\"redact\"\n    },\n    \"replace\":{\n        \"type\":\"replace\",\n        \"new_value\":\"ANONYMIZED\"\n    },\n    \"mask\":{\n        \"type\":\"mask\",\n        \"masking_char\":\"*\",\n        \"chars_to_mask\":20,\n        \"from_end\":false\n    },\n    \"hash\":{\n        \"type\":\"hash\",\n        \"hash_type\":\"sha256\"\n    },\n    \"encrypt\":{\n        \"type\":\"encrypt\",\n        \"key\": key\n    },\n    \"decrypt\":{\n        \"type\":\"decrypt\",\n        \"key\": key\n    }\n}\n\naction = actions[msg.payload.action];\n\nmsg.anonymizers = {\n    \"PERSON\":action,\n    \"US_DRIVER_LICENSE\":action,\n    \"PHONE_NUMBER\":action,\n    \"US_PASSPORT\":action,\n    \"LOCATION\":action,\n    \"CREDIT_CARD\":action,\n    \"CRYPTO\":action,\n    \"UK_NHS\":action,\n    \"US_SSN\":action,\n    \"US_BANK_NUMBER\":action,\n    \"EMAIL_ADDRESS\":action,\n    \"DATE_TIME\":action,\n    \"IP_ADDRESS\":action,\n    \"IBAN_CODE\":action,\n    \"NRP\":action,\n    \"US_ITIN\":action,\n    \"MEDICAL_LICENSE\":action,\n    \"URL\":action\n}\n\nmsg.analyzer = env.get('analyzer')\nmsg.anonymizer = env.get('anonymizer')\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 340,
+        "wires": [
+            [
+                "286797bd2d5c03b1"
+            ]
+        ]
+    },
+    {
+        "id": "20b56924bb1d27bd",
+        "type": "join",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 1010,
+        "y": 200,
+        "wires": [
+            [
+                "7a537092ef2d5463"
+            ]
+        ]
+    },
+    {
+        "id": "6892ac532b8e4429",
+        "type": "change",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "TOPIC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Analyzer",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 180,
+        "wires": [
+            [
+                "20b56924bb1d27bd"
+            ]
+        ]
+    },
+    {
+        "id": "7c0e5a6eda0bccfa",
+        "type": "change",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "TOPIC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Anonymizer",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 220,
+        "wires": [
+            [
+                "20b56924bb1d27bd"
+            ]
+        ]
+    },
+    {
+        "id": "edb597e3a61299b0",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Prepare Analysis",
+        "func": "msg.url = msg.analyzer +\"/analyze\";\n\nmsg.tmpPayload = msg.payload;\nmsg.text = msg.payload.data;\n\nmsg.header = \"Content-Type: application/json\";\nmsg.payload = {\n    text: msg.text,\n    language:\"en\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 300,
+        "wires": [
+            [
+                "5884e761f81987a1"
+            ]
+        ]
+    },
+    {
+        "id": "5884e761f81987a1",
+        "type": "http request",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Analyze",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1180,
+        "y": 300,
+        "wires": [
+            [
+                "372c406bc8578e0f"
+            ]
+        ]
+    },
+    {
+        "id": "386186fe0d67a3cb",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Prepare Analysis",
+        "func": "msg.url = msg.analyzer +\"/analyze\";\n\nmsg.tmpPayload = msg.payload;\nmsg.text = msg.payload.data;\n\nmsg.header = \"Content-Type: application/json\";\nmsg.payload = {\n    text: msg.text,\n    language:\"en\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 340,
+        "wires": [
+            [
+                "0d63dfd0dc4f089d"
+            ]
+        ]
+    },
+    {
+        "id": "0d63dfd0dc4f089d",
+        "type": "http request",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Analyze",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1180,
+        "y": 340,
+        "wires": [
+            [
+                "3b80f6923b9f8eb9"
+            ]
+        ]
+    },
+    {
+        "id": "3b80f6923b9f8eb9",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Prepare Anonymization",
+        "func": "msg.url = msg.anonymizer+\"/anonymize\";\n\nanalyzerResults = msg.payload;\nanonymizers = msg.anonymizers;\nmsg.actions = {};\n\nfor(let i in anonymizers){\n    for(let y in analyzerResults){\n        if(analyzerResults[y].entity_type == i){\n            msg.actions[analyzerResults[y].entity_type] = anonymizers[i];\n            break;    \n        }\n    }\n}\n\nmsg.header = \"Content-Type: application/json\";\n\nmsg.payload = {};\nmsg.payload[\"text\"] = msg.text;\nmsg.payload[\"anonymizers\"] = msg.actions;\nmsg.payload[\"analyzer_results\"] = analyzerResults;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 400,
+        "wires": [
+            [
+                "0254f9d2510d8b35"
+            ]
+        ]
+    },
+    {
+        "id": "0254f9d2510d8b35",
+        "type": "http request",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Anonymize / Deanonymize",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1300,
+        "y": 420,
+        "wires": [
+            [
+                "372c406bc8578e0f"
+            ]
+        ]
+    },
+    {
+        "id": "e1f9ffcabd6fd91b",
+        "type": "function",
+        "z": "ff3d7b7d34a79a9f",
+        "name": "Prepare Deanonymization",
+        "func": "msg.url = msg.anonymizer+\"/deanonymize\";\nmsg.text = msg.payload.text;\nanonymizerResults = msg.payload.items;\ndeanonymizers = msg.anonymizers;\nmsg.actions = {};\nmsg.results = []\n\nfor(let i in deanonymizers){\n    for(let y in anonymizerResults){\n        if(anonymizerResults[y].entity_type == i){\n            msg.actions[anonymizerResults[y].entity_type] = deanonymizers[i];\n            msg.results.push({\n                start: anonymizerResults[y].start,\n                end: anonymizerResults[y].end,\n                entity_type: anonymizerResults[y].entity_type\n            })\n            break;    \n        }\n    }\n}\n\nmsg.header = \"Content-Type: application/json\";\n\nmsg.payload = {};\nmsg.payload[\"text\"] = msg.text;\nmsg.payload[\"deanonymizers\"] = msg.actions;\nmsg.payload[\"anonymizer_results\"] = msg.results;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 440,
+        "wires": [
+            [
+                "0254f9d2510d8b35"
+            ]
+        ]
+    }
+]

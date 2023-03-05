@@ -30,6 +30,9 @@ Once the containers are deployed, use the health check to see that the Presidio 
 
 - :information_source: **POST localhost:1880/Presidio**
 
+
+![AnalyzerAPI](https://github.com/Doth-J/node-red-contrib-presidio/blob/master/docs/AnalyzerAPI.PNG)
+
 The __data__ payload parameter must be a string and you must define the __function__ to ``analyze``.
 
 ### Analyzing PIIs :adult: :arrow_right:
@@ -48,6 +51,8 @@ The __data__ payload parameter must be a string and you must define the __functi
 :warning: Refer to Presidio API documents [HERE](https://microsoft.github.io/presidio/api-docs/api-docs.html) 
 
 - :information_source: **POST localhost:1880/Presidio**
+
+![AnonymizerAPI](https://github.com/Doth-J/node-red-contrib-presidio/blob/master/docs/AnonymizerAPI.PNG)
 
 The __data__ payload parameter must be a string, you must also define the __function__ to ``anonymize`` and  which  __action__ to use for the PIIs (``redact``,``replace``,``mask``,``hash``,``encrypt``).
 
